@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState } from "react";
+import axios from "axios";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [playerInfo, setPlayerInfo] = useState("");
+	const [playerData, setPlayerData] = useState([]);
+	const API_KEY = "RGAPI-c64207e8-e8fc-4498-9e93-54edafbd94d7";
+	var APICallString =
+		"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
+		playerInfo +
+		"?api_key=" +
+		API_KEY;
+
+	function searchForPlayer(event) {
+		//Handle API Call
+
+		axios
+			.get(APICallString)
+			.then(function (response) {
+				setPlayerData(response.data);
+			})
+			.catch(function (error) {});
+		//console.log(event);
+	}
+
+	return (
+		<div className="App">
+			<div className="container">
+				<h5>League of Legends Tracker</h5>
+				<input type="text" onChange={(e) => setPlayerInfo(e.target.value)} />
+				<button onClick={(e) => searchForPlayer(e)}> Search for Player </button>
+			</div>
+			{JSON.stringify(playerData) != "[]" ? (
+				<div>
+					<p>{playerData.name} </p>
+					<img
+						width="100"
+						height="100"
+						src={
+							"http://ddragon.leagueoflegends.com/cdn/13.13.1/img/profileicon/" +
+							playerData.profileIconId +
+							".png"
+						}
+					/>
+				</div>
+			) : (
+				<p>No Player Data</p>
+			)}
+		</div>
+	);
 }
 
 export default App;
