@@ -1,12 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
+
 import React, { useState } from "react";
 import axios from "axios";
 
 function App() {
 	const [playerInfo, setPlayerInfo] = useState("");
 	const [playerData, setPlayerData] = useState([]);
-	const API_KEY = "RGAPI-c64207e8-e8fc-4498-9e93-54edafbd94d7";
+	const API_KEY = process.env.REACT_APP_API_KEY;
+	console.log("API_KEY:", API_KEY);
 	var APICallString =
 		"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
 		playerInfo +
@@ -32,7 +34,7 @@ function App() {
 				<input type="text" onChange={(e) => setPlayerInfo(e.target.value)} />
 				<button onClick={(e) => searchForPlayer(e)}> Search for Player </button>
 			</div>
-			{JSON.stringify(playerData) != "[]" ? (
+			{JSON.stringify(playerData) !== "[]" ? (
 				<div>
 					<p>{playerData.name} </p>
 					<img
