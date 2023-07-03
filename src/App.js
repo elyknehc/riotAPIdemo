@@ -8,7 +8,7 @@ function App() {
 	const [playerInfo, setPlayerInfo] = useState("");
 	const [playerData, setPlayerData] = useState([]);
 	const API_KEY = process.env.REACT_APP_API_KEY;
-	console.log("API_KEY:", API_KEY);
+
 	var APICallString =
 		"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" +
 		playerInfo +
